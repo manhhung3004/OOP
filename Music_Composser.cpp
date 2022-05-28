@@ -1,181 +1,198 @@
-﻿#include"Music_Composser.h"
-using namespace std;
+#include"Music_composser.h"
 /* Định nghĩa các hàm trong lớp NOTE*/
-
-
-
-
 /*------------------ Cac ham khoi tao --------------*/
 NOTE::NOTE()
 {
-	Lenght = 0;
+    Lenght = 0;
 }
-NOTE::NOTE( int lenght)
+NOTE::NOTE(int &lenght)
 {
-	Lenght = lenght;
+    Lenght = lenght;
 }
-NOTE::~NOTE(){}
+NOTE::~NOTE() {}
 
 /* -----------------Cac ham thao tac----------------*/
 void NOTE::PrintNote() {
-	cout << Lenght << " ";
+    cout << Lenght << " ";
 }
-
-
 
 /* Dinh nghia cac ham trong lop Rest */
 /*-----------------Cac ham khoi tao----------------*/
-Rest::Rest():NOTE() {
-	Type = 1;
+Rest::Rest() :NOTE() {
+    Type = 1;
 }
-Rest::Rest(int type, int lenght) :NOTE( lenght) {
-	Type = type;
+Rest::Rest(int type, int lenght) : NOTE(lenght) {
+    Type = type;
 }
 
 /* Ham thao tac */
 void Rest::SetL() {
-	cout << "Nhap vao truong do cua not: ";
-	float a;
-	cin >> a;
-	if (a == 1)		Lenght = 500;
-	if (a == 0.5)	Lenght = 250;
-	if (a == 0.25)	Lenght = 125;
-	if (a == 0.125) Lenght = 125 / 2;
-	if (a == 0.0625)	Lenght = 125 / 4;
+    int a;
+    cout << "\t\t(1)Dau lang tron: \n";
+    cout << "\t\t(2)Dau lang trang: \n";
+    cout << "\t\t(3)Dau lang den: \n";
+    cout << "\t\t(4)Dau lang moc den: \n";
+    cout << "\t\t(5)Dau lang moc doi: \n";
+    cout << "\t\t(6)Dau lang moc ba: \n";
+    cout << "\t\t(7)Dau lang moc tu: \n";
+    cin >> a;
+    switch (a)
+    {
+    case 1: Lenght = 6400; break;
+    case 2: Lenght = 3200; break;
+    case 3: Lenght = 1600; break;
+    case 4: Lenght = 800; break;
+    case 5: Lenght = 400; break;
+    case 6: Lenght = 200; break;
+    case 7: Lenght = 100; break;
+    }
 }
-void Rest::SetH(){}
+void Rest::SetH() {
 
-int Rest::GetL() 
-{
-	return Lenght;
 }
-int Rest::GetH() 
+
+int Rest::GetL()
 {
-	return 0;
+    return Lenght;
+}
+int Rest::GetH()
+{
+    return 0;
 }
 
 void Rest::Sound() {
-	Beep(0, Lenght);
+    Beep(0, Lenght);
 }
-void Rest::PrintNote(){
-	cout << Lenght;
+void Rest::PrintNote() {
+    cout << Lenght;
 }
-
-
 /* Dinh nghia cac ham trong lop Music note */
+MusicNote::MusicNote() {
+    Height = 0;
+}
+MusicNote::MusicNote( int height) {
+    Height = height ;
+}
+
 void MusicNote::SetH() {
-	cout << "Nhap vao cao do: ";
-	int a = 0;
-	switch (a) {
-	case 1:
-		Height = 440;
-		break;
-	}
+    int temp;
+    cout << "(1)Do: \n";
+    cout << "(2)Re: \n";
+    cout << "(3)Mi: \n";
+    cout << "(4)Pha: \n";
+    cout << "(5)Sol: \n";
+    cout << "(6)La: \n";
+    cout << "(7)Si: \n";
+    cout << "(8)Do': \n";
+    cin >> temp;
+    switch (temp)
+    {
+    case 1: Height = 261; break;
+    case 2: Height = 293; break;
+    case 3: Height = 329; break;
+    case 4: Height = 349; break;
+    case 5: Height = 392; break;
+    case 6: Height = 440; break;
+    case 7: Height = 493; break;
+    }
 }
 
-
-
-
-// cac ham menu
-void Menu(vector <NOTE*>& Song)
+void MusicNote::SetL()
 {
-	int choice1 = 0;
-
-	do {
-		system("cls");
-		cout << " ______________________________________________________________\n";
-		cout << "|                          MENU                                |\n";
-		cout << "|  1/ Tao ban nhac moi.                                        |\n";
-		cout << "|  2/ Phat ban nhac co san.                                    |\n";
-		cout << "|  3/ Thoat chuong trinh.                                      |\n";
-		cout << " --------------------------------------------------------------\n";
-		cin >> choice1;
-		switch (choice1) {
-		case 1:
-			system("cls");
-			NewSong(Song);
-			break;
-		case 2:
-			SavedSong(Song);
-			break;
-		}
-	} while (choice1 != 3);
+    int a;
+    cout << "\t\t(1)Not tron: \n";
+    cout << "\t\t(2)Not trang: \n";
+    cout << "\t\t(3)Not den: \n";
+    cout << "\t\t(4)Not moc den: \n";
+    cout << "\t\t(5)Not moc doi: \n";
+    cout << "\t\t(6)Not moc ba: \n";
+    cout << "\t\t(7)Not moc tu: \n";
+    cin >> a;
+    switch (a)
+    {
+    case 1: Lenght = 6400; break;
+    case 2: Lenght = 3200; break;
+    case 3: Lenght = 1600; break;
+    case 4: Lenght = 800; break;
+    case 5: Lenght = 400; break;
+    case 6: Lenght = 200; break;
+    case 7: Lenght = 100; break;
+    }
 }
 
-void NewSong(vector<NOTE*>& Song)
+int MusicNote::GetH()
 {
-	int choice = 0;
-	do {
-		cout << "Chon loai not: \n";
-		cout << "1/ Not lang.\n";
-		cout << "2/ Not nhac.\n";
-		cout << "3/ Ket thuc ban nhac.\n";
-
-		while (!(cin >> choice) && choice != 1 && choice != 2 && choice != 3)
-		{
-			cin.clear();
-			cin.ignore(256, '\n');
-			cout << "Gia tri khong hop le! Hay nhap lai: \n";
-		}
-
-		switch (choice)
-		{
-		case 1:
-			cout << "NOT LANG: \n";
-			Song.push_back(new Rest());
-			cout << "Nhap vao truong do: \n";
-			Song[Song.size() - 1]->GetL();
-			break;
-		case 2:
-			cout << "NOT NHAC\n";
-			Song.push_back(new MusicNote());
-			cout << "Nhap vao cao do:\n";
-			Song[Song.size() - 1]->GetH();
-			cout << "Nhap vao truong do:\n";
-			Song[Song.size() - 1]->SetL();
-			break;
-		case 3:
-			break;
-		}
-		
-	} while (choice != 3);
+    return Height;
 }
 
-void SavedSong(vector<NOTE*>& Song) {
-	system("cls");
-	cout << "Cac ban nhac co san: \n";
-	cout << "\t1/ Hay trao cho anh.\n";
-	cout << "\t2/ con co be be.\n";
-	int choice = 0;
-	cin >> choice;
-	switch (choice) {
-	case 1:
-		cout << "Dang hat hya trao cho anh :>\n";
-		break;
-	case 2:
-		cout << "Dang hat con co be be\n";
-		break;
-	}
-	system("pause");
+int MusicNote::GetL()
+{
+    return Lenght;
 }
 
-void Count(vector<NOTE*>& Song) {
-	int count = 0;
-	for (int i = 0; i < Song.size() - 1; i++)
-		if (Song[i]->GetType() == 1) count++;
-	cout << "Bai hat co " << count << " not lang\n";
+void MusicNote::PrintNote()
+{
+    cout << "Cao do: " << Height << endl;
+    cout << "Truong do: " << Lenght << endl;
+}
+
+void MusicNote::Sound()
+{
+    Beep(GetH(), GetL());
+}
+
+/* Cac ham thao tac*/
+
+int Lenght_(int i) {
+    int temp = 0 ;
+    switch (i)
+    {
+    case 32: return temp = 3200; break;
+
+    case 16: return temp = 1600; break;
+
+    case 8:  return temp = 800; break;
+
+    case 4:  return temp = 400; break;
+
+    case 2:  return temp = 200; break;
+
+    case 1:  return temp = 100; break;
+    }
+}
+
+void Count(vector<NOTE*>Song) {
+    int count = 0;
+    for (int i = 0; i < Song.size() - 1; i++)
+        if (Song[i]->GetType() == 1) count++;
+    cout << "\t\t\t\tBai hat co " << count << "\t\t\t\t not lang\n";
 }
 
 void MinMax(vector<NOTE*> Song)
 {
-	int MaxHight = 0;
-	int MinHight = 0;
-	for (int i = 0; i < Song.size(); i++) {
-		int a = Song[i]->GetH();
-		if (a > MaxHight) MaxHight = a;
-		if (a < MinHight || a>0) MinHight = a;
-	}
+    int MaxHight = 0;
+    int MaxPos = 0;
 
-	cout << "Not co cao do cao nhat la: " << MaxHight << endl;
-	cout << "Not co cao do thap nhat la: " << MinHight << endl;
+    int MinHight = Song[0]->GetH();
+    int MinPos = 0;
+    for (int i = 0; i < Song.size(); i++) {
+        int a = Song[i]->GetH();
+
+        if (a > MaxHight)
+        {
+            MaxHight = a;
+            MaxPos = i;
+        }
+
+        if (a < MinHight || a > 0)
+        {
+            MinHight = a;
+            MinPos = i;
+        }
+    }
+
+    cout << "Not co cao do cao nhat la: ";
+    Song[MaxPos]->PrintNote();
+    cout << "Not co cao do thap nhat la: ";
+    Song[MinPos]->PrintNote();
 }
