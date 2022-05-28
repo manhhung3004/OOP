@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include<iostream>
-#include<string>
-#include<cmath>
 #include<fstream>
 #include<windows.h> // WinApi header 
 #include<vector>
+#include<string>
+#include<cstring>
+
 using namespace std;
 
 /*
@@ -60,36 +61,60 @@ Trường độ:               Cao độ:
 // NOTE
 class NOTE {
 protected:
-    // Thuộc tính chung 
+    int Type; 
     int Lenght;
 public:
-    // Ham khoi tao
+  
     NOTE();
-    ~NOTE();
+    NOTE(int lenght);
+    virtual ~NOTE();
 
-    // Ham chuc nang
+    
+    int GetType() {
+        return Type;
+    }
+  
     virtual void SetL();
+    virtual void SetH();
+
     virtual int GetL();
-    virtual void PrintNote();
+    virtual int GetH();
+  
     virtual void Sound();
+    virtual void PrintNote();
 };
 
 class Rest :public NOTE {
 public:
+
+    Rest();
+    Rest(int type, int lenght);
+
     void SetL();
+    void SetH();
+
+    int GetH();
     int GetL();
+   
     void PrintNote();
     void Sound();
+  
 };
 
 class MusicNote :public NOTE {
 protected:
-    string Hight;
+    int Height;
 public:
     void SetH();
-    int GetH();
     void SetL();
+
+    int GetH();
     int GetL();
+
     void PrintNote();
     void Sound();
+
 };
+
+void NewSong(vector<NOTE*>& Song);
+void SavedSong(vector<NOTE*>& Song);
